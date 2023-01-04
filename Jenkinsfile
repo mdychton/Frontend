@@ -25,22 +25,22 @@ pipeline {
              checkout scm
             }
         }
-        //stage ('Unit tests') {
-            //steps {
-                //sh "pip3 install -r requirements.txt"
-                //sh "python3 -m pytest --cov=. --cov-report xml:test-results/coverage.xml --junitxml=test-results/pytest-report.xml"
-            //}
-         //}
-         //stage ('Sonarqube analysis') {
-            //steps {
-           //     withSonarQubeEnv ('SonarQube') {
-           //     sh "${scannerHome}/bin/sonar-scanner"
-           // }
-           // timeout(1) {
-           //     waitForQualityGate abortPipeline: true
-            //}
-        //}
-        //}
+        stage ('Unit tests') {
+            steps {
+                sh "pip3 install -r requirements.txt"
+                sh "python3 -m pytest --cov=. --cov-report xml:test-results/coverage.xml --junitxml=test-results/pytest-report.xml"
+            }
+         }
+         stage ('Sonarqube analysis') {
+            steps {
+                withSonarQubeEnv ('SonarQube') {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }
+            timeout(1) {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+        }
         stage ('Build application image'){
             steps {
                 script {

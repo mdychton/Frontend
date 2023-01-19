@@ -14,12 +14,6 @@ pipeline {
     }
 
     stages {
-        stage ('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        
         stage ('Get CodeFrontend' ) {
              steps {
              checkout scm
